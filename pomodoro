@@ -1,0 +1,26 @@
+#!/bin/env bash
+
+counter=0
+worktime=$(( 60 * ${1:-25})) # set the value to 1500 (25 minutes) if not set
+breaktime=$((60 * ${2:-5})) # set the value to 300 (5 minutes) if not set
+work=true
+
+sleep_for() {
+    for ((i=0; i < $1; i++ )); do
+        notify-send -h int:value:$i $2
+        sleep 1
+    done
+}
+
+while true; do
+    if [ "$work" = true ]; then
+        sleep_for $worktime "Work"
+        work=false
+    fi
+
+    if [ $work = false ]; then
+        sleep_for $breaktime "Break"
+        work=true
+    fi 
+done
+
