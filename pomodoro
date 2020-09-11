@@ -7,20 +7,22 @@ work=true
 
 sleep_for() {
     for ((i=0; i < $1; i++ )); do
-        notify-send -h int:value:$i $2
+        notify-send -u $3 -h int:value:$i $2
         sleep 1
     done
 }
 
 while true; do
     if [ "$work" = true ]; then
-        sleep_for $worktime "Work"
+        sleep_for $worktime "Work" normal
         work=false
+        beep
     fi
 
     if [ $work = false ]; then
-        sleep_for $breaktime "Break"
+        sleep_for $breaktime "Break" critical
         work=true
+        beep
     fi 
 done
 
